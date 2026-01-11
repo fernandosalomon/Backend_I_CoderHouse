@@ -26,7 +26,7 @@ class CartManager {
 
       return {
         data: carts[carts.length - 1],
-        status: 200,
+        status: 201,
         message: "Carrito creado con exito.",
       };
     } catch (error) {
@@ -44,7 +44,11 @@ class CartManager {
       const carts = JSON.parse(await fs.promises.readFile(this.path, "utf-8"));
       const indexOfCart = carts.findIndex((cart) => (cart.id = cid));
       if (indexOfCart === -1) {
-        throw new Error("Carrito no encontrado.");
+        return {
+          data: null,
+          status: 400,
+          message: "Carrito no encontrado.",
+        };
       }
       return {
         data: carts[cid - 1].products,
@@ -66,13 +70,21 @@ class CartManager {
       const carts = JSON.parse(await fs.promises.readFile(this.path, "utf-8"));
       const cartIndex = carts.findIndex((cart) => cart.id === Number(cid));
       if (cartIndex === -1) {
-        throw new Error("Carrito no encontrado.");
+        return {
+          data: null,
+          status: 400,
+          message: "Carrito no encontrado.",
+        };
       }
 
       const product = await pm.getProductById(pid);
 
       if (product.status !== 200) {
-        throw new Error("Producto no encontrado.");
+        return {
+          data: null,
+          status: 400,
+          message: "Producto no encontrado.",
+        };
       }
 
       if (
@@ -95,7 +107,7 @@ class CartManager {
 
       return {
         data: carts[cartIndex].products,
-        status: 200,
+        status: 201,
         message: "Producto agregado con exito",
       };
     } catch (error) {
