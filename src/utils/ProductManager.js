@@ -3,12 +3,23 @@ const fs = require("fs");
 class ProductManager {
   constructor(path) {
     this.path = path;
+    this.current_id = this.get_last_id();
     this.createJSON();
   }
 
   createJSON() {
     if (!fs.existsSync(this.path)) {
       fs.writeFileSync(this.path, JSON.stringify([]));
+    }
+  }
+
+  get_last_id() {
+    if (fs.existsSync(this.path)) {
+      const products = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+      const last_id = products[products.length - 1].id;
+      return last_id;
+    } else {
+      return 1;
     }
   }
 
@@ -69,7 +80,6 @@ class ProductManager {
   }
 
   async addProduct(newProduct) {
-    console.log(newProduct);
     try {
       //Se comprueba si faltan datos del nuevo producto. En caso afirmativo se lanza un error.
       if (
@@ -94,7 +104,7 @@ class ProductManager {
       );
 
       const productToAppend = {
-        id: products.length + 1,
+        id: this.current_id + 1,
         title: newProduct.title,
         description: newProduct.description,
         price: newProduct.price,
@@ -109,6 +119,9 @@ class ProductManager {
         this.path,
         JSON.stringify([...products, productToAppend])
       );
+
+      this.current_id += 1;
+
       return {
         data: newProduct,
         status: 201,
