@@ -87,6 +87,14 @@ class CartManager {
         };
       }
 
+      if (product.data.stock === 0) {
+        return {
+          data: null,
+          status: 400,
+          message: "El producto no tiene stock. No puede agregarse al carrito.",
+        };
+      }
+
       if (
         carts[cartIndex].products.findIndex(
           (product) => product.productId === Number(pid)
