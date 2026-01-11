@@ -1,0 +1,22 @@
+{
+  "name": "entrega_n1",
+  "version": "1.0.0",
+  "description": "Entrega N1 para el curso de Backend I de CoderHouse",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fernandosalomon/Backend_I_CH.git"
+  },
+  "author": "Fernando F. Salomón",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fernandosalomon/Backend_I_CH/issues"
+  },
+  "homepage": "https://github.com/fernandosalomon/Backend_I_CH#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
