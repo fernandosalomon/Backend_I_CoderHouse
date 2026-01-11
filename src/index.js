@@ -6,6 +6,9 @@ app.use(express.json());
 const ProductManager = require("./utils/ProductManager");
 const pm = new ProductManager("./src/database/productos.json");
 
+const CartManager = require("./utils/CartManager");
+const cm = new CartManager("./src/database/carrito.json");
+
 // Endpoints para productos
 
 app.get("/api/products", async (req, res) => {
@@ -65,7 +68,6 @@ app.post("/api/carts/:cid/product/:pid", async (req, res) => {
     .status(result.status)
     .json(result.status === 200 ? result.data : result.message);
 });
-
 
 app.listen(PORT, () => {
   console.log("Servidor escuchando en el puerto", PORT);
