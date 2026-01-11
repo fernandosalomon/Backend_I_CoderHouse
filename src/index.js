@@ -43,6 +43,30 @@ app.delete("/api/products/:id", async (req, res) => {
     .json(result.status === 200 ? result.data : result.message);
 });
 
+// Endpoints de carritos
+
+app.post("/api/carts/", async (req, res) => {
+  const result = await cm.createCart();
+  res
+    .status(result.status)
+    .json(result.status === 200 ? result.data : result.message);
+});
+
+app.get("/api/carts/:cid", async (req, res) => {
+  const result = await cm.getProductsFromCart(req.params.cid);
+  res
+    .status(result.status)
+    .json(result.status === 200 ? result.data : result.message);
+});
+
+app.post("/api/carts/:cid/product/:pid", async (req, res) => {
+  const result = await cm.addProductToCart(req.params.cid, req.params.pid);
+  res
+    .status(result.status)
+    .json(result.status === 200 ? result.data : result.message);
+});
+
+
 app.listen(PORT, () => {
   console.log("Servidor escuchando en el puerto", PORT);
 });
