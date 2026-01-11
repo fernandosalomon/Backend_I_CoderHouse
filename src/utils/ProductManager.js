@@ -69,7 +69,6 @@ class ProductManager {
   }
 
   async addProduct(newProduct) {
-    console.log(newProduct);
     try {
       //Se comprueba si faltan datos del nuevo producto. En caso afirmativo se lanza un error.
       if (
