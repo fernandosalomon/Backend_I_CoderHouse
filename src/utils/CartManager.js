@@ -18,6 +18,9 @@ class CartManager {
   getCurrentId() {
     if (fs.existsSync(this.path)) {
       const carts = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+      if (carts.length === 0) {
+        return 1;
+      }
       const last_id = carts[carts.length - 1].id;
       return last_id;
     } else {
