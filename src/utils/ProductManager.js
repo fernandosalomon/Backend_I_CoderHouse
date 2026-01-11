@@ -46,7 +46,11 @@ class ProductManager {
       const productById = products.find((product) => product.id == id);
 
       if (!productById) {
-        throw new Error("Producto no encontrado.");
+        return {
+          data: null,
+          status: 400,
+          message: "Producto no encontrado.",
+        };
       } else {
         return {
           data: productById,
@@ -78,7 +82,11 @@ class ProductManager {
         !newProduct.category ||
         !newProduct.status
       ) {
-        throw new Error("Faltan campos por completar.");
+        return {
+          data: null,
+          status: 400,
+          message: "Faltan campos por completar.",
+        };
       }
 
       const products = JSON.parse(
@@ -103,7 +111,7 @@ class ProductManager {
       );
       return {
         data: newProduct,
-        status: 200,
+        status: 201,
         message: "El producto fue creado con exito.",
       };
     } catch (error) {
@@ -134,9 +142,12 @@ class ProductManager {
         validKeys.includes(key)
       );
       if (!IsValidObject) {
-        throw new Error(
-          "Uno o más campos del producto no corresponden a campos validos de productos."
-        );
+        return {
+          data: null,
+          status: 400,
+          message:
+            "Uno o más campos del producto no corresponden a campos validos de productos.",
+        };
       }
 
       const products = JSON.parse(
@@ -145,7 +156,11 @@ class ProductManager {
       const indexOfProduct = products.findIndex((product) => product.id == id);
 
       if (indexOfProduct == -1) {
-        throw new Error("Producto no encontrado.");
+        return {
+          data: null,
+          status: 400,
+          message: "Producto no encontrado.",
+        };
       }
 
       products[indexOfProduct] = {
@@ -179,9 +194,12 @@ class ProductManager {
         (product) => product.id === Number(id)
       );
 
-      console.log(products);
       if (indexOfProduct === -1) {
-        throw new Error("Producto no encontrado.");
+        return {
+          data: null,
+          status: 400,
+          message: "Producto no encontrado.",
+        };
       }
 
       const newProductList = products.filter(
