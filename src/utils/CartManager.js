@@ -5,6 +5,7 @@ const pm = new ProductManager("./src/database/productos.json");
 class CartManager {
   constructor(path) {
     this.path = path;
+    this.current_id = this.getCurrentId();
     this.createJSON();
   }
 
@@ -14,15 +15,30 @@ class CartManager {
     }
   }
 
+  getCurrentId() {
+    if (fs.existsSync(this.path)) {
+      const carts = JSON.parse(fs.readFileSync(this.path, "utf-8"));
+      if (carts.length === 0) {
+        return 1;
+      }
+      const last_id = carts[carts.length - 1].id;
+      return last_id;
+    } else {
+      return 1;
+    }
+  }
+
   async createCart() {
     try {
       const carts = JSON.parse(await fs.promises.readFile(this.path, "utf-8"));
       carts.push({
-        id: carts.length + 1,
+        id: this.current_id,
         products: [],
       });
 
       await fs.promises.writeFile(this.path, JSON.stringify(carts));
+
+      this.current_id += 1;
 
       return {
         data: carts[carts.length - 1],
