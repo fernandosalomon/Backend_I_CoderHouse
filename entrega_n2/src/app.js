@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const handlebars = require("express-handlebars");
+const viewsRouter = require('./routes/views.router');
 PORT = 3030;
 
 const server = require("http").createServer(app);
@@ -13,16 +14,8 @@ app.use(express.urlencoded({ extended: true }));
 app.engine("handlebars", handlebars.engine());
 app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "handlebars");
-app.use(express.static(path.join(__dirname, "/views")));
 
-app.get("/", (req, res) => {
-  const test = {
-    name: "Producto de prueba",
-    description: "Producto de prueba",
-  };
-
-  res.render("index", test);
-});
+app.use('/', viewsRouter);
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
