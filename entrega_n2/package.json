@@ -4,10 +4,19 @@
   "description": "🔗 GitHub: https://github.com/fernandosalomon",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node --watch ./src/app.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "socket.io",
+    "handlebars",
+    "e-commerce"
+  ],
+  "author": "Fernando F. Salomon",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "express-handlebars": "^8.0.6",
+    "socket.io": "^4.8.3"
+  }
 }
