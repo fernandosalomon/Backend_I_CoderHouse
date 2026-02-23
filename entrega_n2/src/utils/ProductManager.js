@@ -4,7 +4,7 @@ class ProductManager{
     constructor(path){
         let last_id = this.getLastID();
         try{
-            this.path = createJSON(path);
+            this.path = this.createJSON(path);
             if(!this.path){
                 throw `Error al intentar acceder a la ruta ${path}`;
             }

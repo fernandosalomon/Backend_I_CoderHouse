@@ -2,7 +2,9 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const handlebars = require("express-handlebars");
+const productsRouter = require('./routes/products.router');
 const viewsRouter = require('./routes/views.router');
+
 PORT = 3030;
 
 const server = require("http").createServer(app);
@@ -15,6 +17,7 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "handlebars");
 
+app.use('/api/products', productsRouter);
 app.use('/', viewsRouter);
 
 server.listen(PORT, () => {
