@@ -4,6 +4,7 @@ const app = express();
 const handlebars = require("express-handlebars");
 const productsRouter = require('./routes/products.router');
 const viewsRouter = require('./routes/views.router');
+const cartsRouter = require("./routes/carts.router");
 
 PORT = 3030;
 
@@ -18,6 +19,7 @@ app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "handlebars");
 
 app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
 app.use('/', viewsRouter);
 
 server.listen(PORT, () => {

@@ -2,7 +2,7 @@ const fs = require('fs');
 
 class ProductManager{
     constructor(path){
-        let last_id = this.getLastID();
+        let current_id = this.getCurrentID();
         try{
             this.path = this.createJSON(path);
             if(!this.path){
@@ -28,7 +28,7 @@ class ProductManager{
         }
     }
 
-    async getLastID() {
+    async getCurrentID() {
         if (fs.existsSync(this.path)) {
           const data = await fs.promises.readFile(this.path, "utf-8");
           const products = JSON.parse(data);
