@@ -32,7 +32,6 @@ class CartManager {
               return null;
             }
           }else{
-              console.log("El archivo JSON ya existe. No se hace nada...")
               return path;
           }
   }

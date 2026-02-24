@@ -2,7 +2,6 @@ const fs = require('fs');
 
 class ProductManager{
     constructor(path){
-        let current_id = this.getCurrentID();
         try{
             this.path = this.createJSON(path);
             if(!this.path){
@@ -23,19 +22,7 @@ class ProductManager{
             return null;
           }
         }else{
-            console.log("El archivo JSON ya existe. No se hace nada...")
             return path;
-        }
-    }
-
-    async getCurrentID() {
-        if (fs.existsSync(this.path)) {
-          const data = await fs.promises.readFile(this.path, "utf-8");
-          const products = JSON.parse(data);
-          const last_id = products[products.length - 1].id;
-          return last_id;
-        } else {
-          return 1;
         }
     }
 
@@ -43,18 +30,9 @@ class ProductManager{
         try{
             const data = await fs.promises.readFile(this.path, 'utf-8');
             const products = JSON.parse(data);
-            return {
-              data: products,
-              status: 200,
-              message: "Datos de productos recuperados con exito.",
-            };
+            return products;
         }catch(error){
-            console.error("Error al recuperar los datos de los productos.", error);
-            return {
-              data: null,
-              status: 500,
-              message: `Error al recuperar los datos de los productos. ${error}.`,
-            };
+            throw new Error(`Error al leer el archivo de productos: ${error.message}`);
         }
     }
 
@@ -62,28 +40,15 @@ class ProductManager{
         try {
           const data = await fs.promises.readFile(this.path, "utf-8");
           const products = JSON.parse(data);
-          const productById = products.find((product) => product.id == id);
+          const product = products.find((product) => product.id == id);
     
-          if (!productById) {
-            return {
-              data: null,
-              status: 400,
-              message: "Producto no encontrado.",
-            };
+          if (!product) {
+            throw Error("Producto no encontrado.")
           } else {
-            return {
-              data: productById,
-              status: 200,
-              message: "Producto encontrado.",
-            };
+            return product;
           }
         }catch (error) {
-          console.error("Error al recuperar los datos de los productos.", error);
-          return {
-            data: null,
-            status: 500,
-            message: `Error al recuperar los datos de los productos. ${error}.`,
-          };
+          throw new Error(`Error al obtener los datos del producto: ${error.message}`)
         }
     }
 
@@ -100,53 +65,34 @@ class ProductManager{
               !newProduct.category ||
               !newProduct.status
             ) {
-              return {
-                data: null,
-                status: 400,
-                message: "Faltan campos por completar.",
-              };
+             throw new Error("Faltan datos del nuevo producto.")
             }
       
-            const products = JSON.parse(
-              await fs.promises.readFile(this.path, "utf-8")
-            );
+            const products = await this.getAllProducts();
+
+            let id;
+            if(products.length === 0){
+                id = 1;
+            }else{
+                id = products[products.length - 1].id + 1;
+            }
       
-            const productToAppend = {
-              id: this.current_id + 1,
-              title: newProduct.title,
-              description: newProduct.description,
-              price: newProduct.price,
-              thumbnails: newProduct.thumbnails,
-              code: newProduct.code,
-              stock: newProduct.stock,
-              category: newProduct.category,
-              status: newProduct.status,
-            };
-      
+            const createdProduct = {id: id, ...newProduct} 
+               
             await fs.promises.writeFile(
               this.path,
-              JSON.stringify([...products, productToAppend])
+              JSON.stringify([...products, createdProduct])
             );
       
             this.current_id += 1;
       
-            return {
-              data: newProduct,
-              status: 201,
-              message: "El producto fue creado con exito.",
-            };
+            return createdProduct;
           }catch (error) {
-            console.error("Error al crear el nuevo producto", error);
-            return {
-              data: null,
-              status: 500,
-              message: `Error al crear el nuevo producto. ${error}.`,
-            };
+            throw new Error(`No se pudo agregar el nuevo producto: ${error.message}`);
           }
     }
       
-    async updateProduct(id, newProductData) {
-        //Comprobar si el objeto newProductData contiene keys validas. En caso contrario devuelve error.
+    async updateProduct(id, updatedProduct) {
         const validKeys = [
             "title",
             "description",
@@ -159,88 +105,53 @@ class ProductManager{
         ];
       
         try {
-            const IsValidObject = Object.keys(newProductData).every((key) =>
+            const IsValidObject = Object.keys(updatedProduct).every((key) =>
               validKeys.includes(key)
             );
             if (!IsValidObject) {
-              return {
-                data: null,
-                status: 400,
-                message:
-                  "Uno o más campos del producto no corresponden a campos validos de productos.",
-              };
+              throw new Error(
+                "Uno o más campos del producto no corresponden a campos validos de productos."
+              );
             }
-      
-            const products = JSON.parse(
-              await fs.promises.readFile(this.path, "utf-8")
-            );
+            
+            const data = await fs.promises.readFile(this.path, "utf-8");
+            const products = JSON.parse(data);
             const indexOfProduct = products.findIndex((product) => product.id == id);
       
-            if (indexOfProduct == -1) {
-              return {
-                data: null,
-                status: 400,
-                message: "Producto no encontrado.",
-              };
-            }
+            if (indexOfProduct == -1) throw new Error("Producto no encontrado.");
       
             products[indexOfProduct] = {
               ...products[indexOfProduct],
-              ...newProductData,
+              ...updatedProduct,
             };
       
             await fs.promises.writeFile(this.path, JSON.stringify(products));
       
-            return {
-              data: newProductData,
-              status: 200,
-              message: "Producto modificado con exito.",
-            };
+            return products[indexOfProduct];
           } catch (error) {
-            console.error("Error al modificar el producto.", error);
-            return {
-              data: null,
-              status: 500,
-              message: `Error al modificar el producto. ${error}`,
-            };
+            throw new Error(`Error al modificar el producto. ${error}`);
           }
     }
       
     async deleteProduct(id) {
         try {
-            const products = JSON.parse(
-              await fs.promises.readFile(this.path, "utf-8")
-            );
+            const products = await this.getAllProducts();
+
             const indexOfProduct = products.findIndex(
               (product) => product.id === Number(id)
             );
       
-            if (indexOfProduct === -1) {
-              return {
-                data: null,
-                status: 400,
-                message: "Producto no encontrado.",
-              };
-            }
+            if (indexOfProduct === -1) throw new Error("Producto no encontrado.");
       
-            const newProductList = products.filter(
+            const updatedProductList = products.filter(
               (product) => product.id !== Number(id)
             );
       
-            await fs.promises.writeFile(this.path, JSON.stringify(newProductList));
+            await fs.promises.writeFile(this.path, JSON.stringify(updatedProductList));
       
-            return {
-              data: products[indexOfProduct],
-              status: 200,
-              message: "Producto eliminado con exito.",
-            };
+            return products[indexOfProduct];
           } catch (error) {
-            console.error("Error al eliminar el producto.", error);
-            return {
-              data: null,
-              status: 500,
-              message: `"Error al eliminar el producto. ${error}`,
-            };
+            throw new Error(`Error al eliminar el producto. ${error}`);
           }
     }
 }

@@ -108,5 +108,33 @@
     "stock": 10,
     "category": "Food - Snacks",
     "thumbnail": "http://dummyimage.com/204x241.png/5fa2dd/ffffff"
+  },
+  {
+    "id": 11,
+    "title": "Auriculares Inalámbricos Sony WH-1000XM5",
+    "description": "Auriculares over-ear con cancelación activa de ruido, micrófono integrado y hasta 30 horas de batería.",
+    "code": "AU-SONY-XM5",
+    "price": 680000,
+    "status": true,
+    "stock": 8,
+    "category": "Audio",
+    "thumbnails": [
+      "https://example.com/images/sony-xm5-black.jpg",
+      "https://example.com/images/sony-xm5-case.jpg"
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Auriculares Inalámbricos Sony WH-1000XM5",
+    "description": "Auriculares over-ear con cancelación activa de ruido, micrófono integrado y hasta 30 horas de batería.",
+    "code": "AU-SONY-XM5",
+    "price": 680000,
+    "status": false,
+    "stock": 8,
+    "category": "Auto",
+    "thumbnails": [
+      "https://example.com/images/sony-xm5-black.jpg",
+      "https://example.com/images/sony-xm5-case.jpg"
+    ]
   }
 ]
