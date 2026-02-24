@@ -1,10 +1,9 @@
 const fs = require("fs");
 const ProductManager = require("./ProductManager");
-const pm = new ProductManager("./src/data/products.json");
+const productManager = new ProductManager("./src/data/products.json");
 
 class CartManager {
   constructor(path) {
-    this.current_id = this.getCurrentId();
     try {
       this.path = this.createJSON(path);
       if (!this.path) {
@@ -36,101 +35,59 @@ class CartManager {
           }
   }
 
-  getCurrentId() {
-    if (fs.existsSync(this.path)) {
-      const carts = JSON.parse(fs.readFileSync(this.path, "utf-8"));
-      if (carts.length === 0) {
-        return 1;
-      }
-      const last_id = carts[carts.length - 1].id;
-      return last_id;
-    } else {
-      return 1;
-    }
-  }
-
   async createCart() {
     try {
-      const carts = JSON.parse(await fs.promises.readFile(this.path, "utf-8"));
+      const data = await fs.promises.readFile(this.path, "utf-8");
+      const carts = JSON.parse(data);
+
+      let id;
+      if(carts.length === 0){
+        id = 1;
+      }else{
+        id = carts[carts.length - 1].id + 1;
+      }
+
       carts.push({
-        id: this.current_id,
+        id: id,
         products: [],
       });
 
       await fs.promises.writeFile(this.path, JSON.stringify(carts));
 
-      this.current_id += 1;
-
-      return {
-        data: carts[carts.length - 1],
-        status: 201,
-        message: "Carrito creado con exito.",
-      };
+      return carts[carts.length - 1];
     } catch (error) {
-      console.error("Error al crear un nuevo carrito.", error);
-      return {
-        data: null,
-        status: 500,
-        message: `Error al crear un nuevo carrito. ${error}`,
-      };
+        throw new Error(`Error al crear un nuevo carrito. ${error}`)
     }
   }
 
   async getProductsFromCart(cid) {
     try {
-      const carts = JSON.parse(await fs.promises.readFile(this.path, "utf-8"));
+      const data = await fs.promises.readFile(this.path, "utf-8");
+      const carts = JSON.parse(data);
       const indexOfCart = carts.findIndex((cart) => (cart.id = cid));
-      if (indexOfCart === -1) {
-        return {
-          data: null,
-          status: 400,
-          message: "Carrito no encontrado.",
-        };
-      }
-      return {
-        data: carts[cid - 1].products,
-        status: 200,
-        message: "Productos del carrito recuperados con exito.",
-      };
+      
+      if (indexOfCart === -1) throw new Error("Carrito no encontrado.");
+      
+      return carts[cid - 1].products;
+
     } catch (error) {
-      console.error("Error al obtener los productos del carrito", error);
-      return {
-        data: null,
-        status: 500,
-        message: `Error al obtener los productos del carrito ${error}`,
-      };
+      throw new Error(`Error al obtener los productos del carrito ${error}`);
     }
   }
 
   async addProductToCart(cid, pid) {
     try {
-      const carts = JSON.parse(await fs.promises.readFile(this.path, "utf-8"));
+      const data = await fs.promises.readFile(this.path, "utf-8");
+      const carts = JSON.parse(data);
       const cartIndex = carts.findIndex((cart) => cart.id === Number(cid));
-      if (cartIndex === -1) {
-        return {
-          data: null,
-          status: 400,
-          message: "Carrito no encontrado.",
-        };
-      }
+      
+      if (cartIndex === -1) throw new Error("Carrito no encontrado.");
 
-      const product = await pm.getProductById(pid);
+      const product = await productManager.getProductById(pid);
 
-      if (product.status !== 200) {
-        return {
-          data: null,
-          status: 400,
-          message: "Producto no encontrado.",
-        };
-      }
-
-      if (product.data.stock === 0) {
-        return {
-          data: null,
-          status: 400,
-          message: "El producto no tiene stock. No puede agregarse al carrito.",
-        };
-      }
+      if (product.stock === 0) throw new Error(
+        "El producto no tiene stock. No puede agregarse al carrito.",
+      );
 
       if (
         carts[cartIndex].products.findIndex(
@@ -138,7 +95,7 @@ class CartManager {
         ) === -1
       ) {
         carts[cartIndex].products.push({
-          productId: product.data.id,
+          productId: product.id,
           quantity: 1,
         });
       } else {
@@ -150,18 +107,9 @@ class CartManager {
 
       await fs.promises.writeFile(this.path, JSON.stringify(carts));
 
-      return {
-        data: carts[cartIndex].products,
-        status: 201,
-        message: "Producto agregado con exito",
-      };
+      return carts[cartIndex].products;
     } catch (error) {
-      console.error("Error al agregar el producto al carrito.", error);
-      return {
-        data: null,
-        status: 500,
-        message: `Error al agregar el producto al carrito. ${error}`,
-      };
+      throw new Error(`Error al agregar el producto al carrito. ${error}`);
     }
   }
 }
