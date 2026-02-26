@@ -1,7 +1,7 @@
 <div>
   <h1>Real Time Products</h1>
 
-  <form id="newProductForm">
+  <form id="newProductForm" class="w-50 mx-auto">
 
     <div class="mb-3">
       <label for="title" class="form-label">Título del producto</label>
@@ -37,7 +37,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="price" class="form-label">Código del producto</label>
+      <label for="price" class="form-label">Precio del producto</label>
       <input
         type="text"
         class="form-control"
@@ -104,7 +104,9 @@
       />
     </div>
 
-    <button type="submit" class="btn btn-primary">Crear producto</button>
+    <div class="w-100 d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary">Crear producto</button>
+    </div>
   </form>
 
   <h2>Lista de productos</h2>
@@ -117,3 +119,5 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/client.js"></script>
+
+//37:38
