@@ -1,8 +1,119 @@
 <div>
-    <h1>Real Time Products</h1>
-    <ul>
-        {{#each products}}
-            <li>{{this.title}} - ${{this.price}}</li>
-        {{/each}}
-    </ul>
+  <h1>Real Time Products</h1>
+
+  <form id="newProductForm">
+
+    <div class="mb-3">
+      <label for="title" class="form-label">Título del producto</label>
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        aria-describedby="title"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Descripción del producto</label>
+      <input
+        type="text"
+        class="form-control"
+        id="description"
+        name="description"
+        aria-describedby="description"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="code" class="form-label">Código del producto</label>
+      <input
+        type="text"
+        class="form-control"
+        id="code"
+        name="code"
+        aria-describedby="code"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="price" class="form-label">Código del producto</label>
+      <input
+        type="text"
+        class="form-control"
+        id="price"
+        name="price"
+        aria-describedby="price"
+      />
+    </div>
+
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="status"
+        id="statusTrue"
+      />
+      <label class="form-check-label" for="statusTrue">
+        Habilitado
+      </label>
+    </div>
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="radio"
+        name="status"
+        id="statusFalse"
+        checked
+      />
+      <label class="form-check-label" for="statusFalse">
+        Deshabilitado
+      </label>
+    </div>
+
+    <div class="mb-3">
+      <label for="stock" class="form-label">Stock del producto</label>
+      <input
+        type="number"
+        class="form-control"
+        id="stock"
+        name="stock"
+        aria-describedby="stock"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="category" class="form-label">Categoría del producto</label>
+      <input
+        type="text"
+        class="form-control"
+        id="category"
+        name="category"
+        aria-describedby="category"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="thumbnail" class="form-label">Imágen del producto</label>
+      <input
+        type="text"
+        class="form-control"
+        id="thumbnail"
+        name="thumbnail"
+        aria-describedby="thumbnail"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Crear producto</button>
+  </form>
+
+  <h2>Lista de productos</h2>
+  <ul>
+    {{#each products}}
+      <li>{{this.title}} - ${{this.price}}</li>
+    {{/each}}
+  </ul>
 </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/client.js"></script>
