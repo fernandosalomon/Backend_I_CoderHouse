@@ -58,37 +58,54 @@ class ProductManager {
 
   async addProduct(newProduct) {
     try {
-      //Se comprueba si faltan datos del nuevo producto. En caso afirmativo se lanza un error.
-      if (
-        !newProduct.title ||
-        !newProduct.description ||
-        !newProduct.price ||
-        !newProduct.thumbnails ||
-        !newProduct.code ||
-        !newProduct.stock ||
-        !newProduct.category ||
-        !newProduct.status
-      ) {
-        throw new Error("Faltan datos del nuevo producto.");
+       const products = await this.getAllProducts();
+
+       let id;
+       if (products.length === 0) {
+         id = 1;
+       } else {
+         id = products[products.length - 1].id + 1;
+       }
+
+      const createdProduct = {
+        id: id,
+        title: newProduct.title.trim(),
+        description: newProduct.description.trim(),
+        code: newProduct.code.trim(),
+        price: newProduct.price,
+        status: newProduct.status,
+        stock: newProduct.stock,
+        category: newProduct.category.trim(),
+        thumbnails: newProduct.thumbnails.map(thumbnail => thumbnail.trim()),
+      };
+
+  
+      //Comprobar que los campos tienen los datos correctos
+      if(
+        !/^[A-Za-z0-9 ]{1,40}$/.test(createdProduct.title) ||
+        !/^[A-Za-z0-9 ]{1,200}$/.test(createdProduct.description) ||
+        !/^\d+\.\d{2}$/.test(createdProduct.price) ||
+        !/^[A-Za-z0-9-]{1,15}$/.test(createdProduct.code) ||
+        !/^(0|[1-9]\d*)$/.test(createdProduct.stock) ||
+        !/^[A-Za-z0-9 ]{1,40}$/.test(createdProduct.category) ||
+        !/^(true|false)$/.test(createdProduct.status) ||
+        createdProduct.length === 0
+      ){
+        throw new Error("Uno o más campos faltan o contienen errores")
       }
 
-      const products = await this.getAllProducts();
-
-      let id;
-      if (products.length === 0) {
-        id = 1;
-      } else {
-        id = products[products.length - 1].id + 1;
-      }
-
-      const createdProduct = { id: id, ...newProduct };
+      createdProduct.thumbnails.map(thumbnail => {
+        try {
+          new URL(thumbnail)
+        } catch (error) {
+          throw new Error("Uno o más campos faltan o contienen errores");
+        }
+      });
 
       await fs.promises.writeFile(
         this.path,
         JSON.stringify([...products, createdProduct]),
       );
-
-      this.current_id += 1;
 
       return createdProduct;
     } catch (error) {
