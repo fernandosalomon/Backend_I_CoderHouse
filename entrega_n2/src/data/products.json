@@ -33,17 +33,6 @@
     "thumbnail": "http://dummyimage.com/144x117.png/ff4444/ffffff"
   },
   {
-    "id": 4,
-    "title": "Repair Tool Set for Home Improvement",
-    "description": "Small toolkit with essentials for home repairs.",
-    "code": "XD-OFB3-JDS",
-    "price": 29.99,
-    "status": true,
-    "stock": 16,
-    "category": "Tools",
-    "thumbnail": "http://dummyimage.com/178x234.png/cc0000/ffffff"
-  },
-  {
     "id": 5,
     "title": "Vegetable Samosas",
     "description": "Crispy pastry filled with seasoned vegetables.",
@@ -125,16 +114,13 @@
   },
   {
     "id": 12,
-    "title": "Auriculares Inalámbricos Sony WH-1000XM5",
-    "description": "Auriculares over-ear con cancelación activa de ruido, micrófono integrado y hasta 30 horas de batería.",
-    "code": "AU-SONY-XM5",
-    "price": 680000,
-    "status": false,
-    "stock": 8,
-    "category": "Auto",
-    "thumbnails": [
-      "https://example.com/images/sony-xm5-black.jpg",
-      "https://example.com/images/sony-xm5-case.jpg"
-    ]
+    "title": "Remera",
+    "description": "Remera de hombre",
+    "code": "RE-999-291",
+    "price": "39.65",
+    "stock": "2",
+    "status": "true",
+    "category": "Remeras",
+    "thumbnails": ["http://pantalon.io"]
   }
 ]

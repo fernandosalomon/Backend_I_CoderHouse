@@ -9,7 +9,11 @@ newProductForm.addEventListener("submit", (e) => {
   const productData = {};
 
   formData.forEach((value, key) => {
-    productData[key] = value;
+    if (key == "thumbnails") {
+      productData["thumbnails"] = [value];
+    } else {
+      productData[key] = value;
+    }
   });
 
   socket.emit("new product", productData);
