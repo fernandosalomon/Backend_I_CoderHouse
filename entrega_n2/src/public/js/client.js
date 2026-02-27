@@ -12,5 +12,15 @@ newProductForm.addEventListener("submit", (e) => {
         productData[key] = value;
     });
 
-    console.log(productData);
+    socket.emit("new product", productData);
 })
+
+socket.on("added product", (newProduct) => {
+    const productList = document.getElementById("productList");
+
+    productList.innerHTML += `
+        <li class="list-group-item"> ${newProduct.title} - $${newProduct.price} </li>
+    `;
+    
+    newProductForm.reset();
+});

@@ -6,6 +6,9 @@ const productsRouter = require('./routes/products.router');
 const viewsRouter = require('./routes/views.router');
 const cartsRouter = require("./routes/carts.router");
 
+const ProductManager = require('./utils/ProductManager');
+const productManager = new ProductManager("./src/data/products.json");
+
 PORT = 3030;
 
 const server = require("http").createServer(app);
@@ -25,7 +28,17 @@ app.use('/', viewsRouter);
 
 io.on('connection', (socket) => {
   console.log(`User ${socket.id} connected`);
-})
+
+  socket.on("new product", async (productData) => {
+    try {
+      const addedProduct = await productManager.addProduct(productData);
+
+      io.emit("added product", addedProduct);
+    } catch (error) {
+      console.error(error.message);
+    }
+  });
+});
 
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
