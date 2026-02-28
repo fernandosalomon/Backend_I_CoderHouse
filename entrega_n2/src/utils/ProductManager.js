@@ -82,12 +82,14 @@ class ProductManager {
   
       //Comprobar que los campos tienen los datos correctos
       if (
-        !/^[\p{L}\p{N} ]{1,40}$/.test(createdProduct.title) ||
-        !/^[\p{L}\p{N} ]{1,200}$/.test(createdProduct.description) ||
+        !/^[A-Za-z0-9áéíóúÁÉÍÓÚüÜñÑ ]{1,40}$/.test(createdProduct.title) ||
+        !/^[A-Za-z0-9áéíóúÁÉÍÓÚüÜñÑ ]{1,200}$/.test(
+          createdProduct.description,
+        ) ||
         !/^\d+\.\d{2}$/.test(createdProduct.price) ||
-        !/^[\p{L}\p{N}-]{1,15}$/.test(createdProduct.code) ||
+        !/^[A-Za-z0-9áéíóúÁÉÍÓÚüÜñÑ-]{1,15}$/.test(createdProduct.code) ||
         !/^(0|[1-9]\d*)$/.test(createdProduct.stock) ||
-        !/^[\p{L}\p{N} ]{1,40}$/.test(createdProduct.category) ||
+        !/^[A-Za-z0-9áéíóúÁÉÍÓÚüÜñÑ ]{1,40}$/.test(createdProduct.category) ||
         !/^(true|false)$/.test(createdProduct.status) ||
         createdProduct.length === 0
       ) {
