@@ -9,7 +9,7 @@ const cartsRouter = require("./routes/carts.router");
 const ProductManager = require("./utils/ProductManager");
 const productManager = new ProductManager("./src/data/products.json");
 
-PORT = 3030;
+PORT = 8080;
 
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
