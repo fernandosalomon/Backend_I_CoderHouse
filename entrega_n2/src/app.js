@@ -18,7 +18,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.engine("handlebars", handlebars.engine());
+const hbs = handlebars.create({
+  helpers: {
+    firstThumbnail(thumbnails){
+      return thumbnails?.split(",")[0]
+    }
+  }
+})
+
+app.engine("handlebars", hbs.engine);
 app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "handlebars");
 
