@@ -118,6 +118,8 @@ newProductForm.addEventListener("submit", (e) => {
 
 socket.on("added product", (newProduct) => {
   const productTable = document.getElementById("productTable");
+  const modalElement = document.getElementById("addNewProductModal");
+  const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
 
   productTable.innerHTML += `
         <tr id="id-${newProduct.id}">
@@ -137,6 +139,7 @@ socket.on("added product", (newProduct) => {
     `;
 
   newProductForm.reset();
+  modal.hide();
 });
 
 function deleteProduct(productID) {
