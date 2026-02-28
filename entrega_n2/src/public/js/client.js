@@ -19,14 +19,14 @@ function validateInputs() {
 
   let is_valid = true;
 
-  if (!/^[A-Za-z0-9 ]{1,40}$/.test(titleInput.value)) {
+  if (!/^[\p{L}\p{N} ]{1,40}$/.test(titleInput.value)) {
     titleInputErrorMsg.innerText =
       "El campo título debe tener entre 1 y 40 caracteres (letras, números o espacios)";
     titleInputErrorMsg.classList = "invalid-feedback d-inline";
     is_valid = false;
   }
 
-  if (!/^[A-Za-z0-9 ]{1,200}$/.test(descriptionInput.value)) {
+  if (!/^[\p{L}\p{N} ]{1,200}$/.test(descriptionInput.value)) {
     descriptionInputErrorMsg.innerText =
       "El campo descripción debe tener entre 1 y 200 caracteres (letras, números o espacios)";
     descriptionInputErrorMsg.classList = "invalid-feedback d-inline";
@@ -40,7 +40,7 @@ function validateInputs() {
     is_valid = false;
   }
 
-  if (!/^[A-Za-z0-9-]{1,15}$/.test(codeInput.value)) {
+  if (!/^[\p{L}\p{N}-]{1,15}$/.test(codeInput.value)) {
     codeInputErrorMsg.innerText =
       "El campo código debe tener entre 1 y 15 caracteres (letras, números o guiones(-))";
     codeInputErrorMsg.classList = "invalid-feedback d-inline";
@@ -54,7 +54,7 @@ function validateInputs() {
     is_valid = false;
   }
 
-  if (!/^[A-Za-z0-9 ]{1,40}$/.test(categoryInput.value)) {
+  if (!/^[\p{L}\p{N} ]{1,40}$/.test(categoryInput.value)) {
     categoryInputErrorMsg.innerText =
       "El campo categoría debe tener entre 1 y 40 caracteres (letras, números o espacios)";
     categoryInputErrorMsg.classList = "invalid-feedback d-inline";

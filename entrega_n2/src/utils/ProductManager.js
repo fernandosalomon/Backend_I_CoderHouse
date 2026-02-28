@@ -81,17 +81,17 @@ class ProductManager {
 
   
       //Comprobar que los campos tienen los datos correctos
-      if(
-        !/^[A-Za-z0-9 ]{1,40}$/.test(createdProduct.title) ||
-        !/^[A-Za-z0-9 ]{1,200}$/.test(createdProduct.description) ||
+      if (
+        !/^[\p{L}\p{N} ]{1,40}$/.test(createdProduct.title) ||
+        !/^[\p{L}\p{N} ]{1,200}$/.test(createdProduct.description) ||
         !/^\d+\.\d{2}$/.test(createdProduct.price) ||
-        !/^[A-Za-z0-9-]{1,15}$/.test(createdProduct.code) ||
+        !/^[\p{L}\p{N}-]{1,15}$/.test(createdProduct.code) ||
         !/^(0|[1-9]\d*)$/.test(createdProduct.stock) ||
-        !/^[A-Za-z0-9 ]{1,40}$/.test(createdProduct.category) ||
+        !/^[\p{L}\p{N} ]{1,40}$/.test(createdProduct.category) ||
         !/^(true|false)$/.test(createdProduct.status) ||
         createdProduct.length === 0
-      ){
-        throw new Error("Uno o más campos faltan o contienen errores")
+      ) {
+        throw new Error("Uno o más campos faltan o contienen errores");
       }
 
       createdProduct.thumbnails.map(thumbnail => {
