@@ -21,7 +21,12 @@ app.use(express.static("public"));
 const hbs = handlebars.create({
   helpers: {
     firstThumbnail(thumbnails){
-      return thumbnails?.split(",")[0]
+      if(thumbnails?.includes(",")){
+        return thumbnails?.split(",")[0]
+      }else{
+        return thumbnails; 
+      }
+      
     }
   }
 })

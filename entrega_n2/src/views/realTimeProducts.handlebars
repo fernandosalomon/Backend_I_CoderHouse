@@ -27,7 +27,7 @@
     <tbody id="productTable">
       {{#each products}}
         <tr id="id-{{this.id}}">
-          <td><img src="{{firstThumbnail this.thumbnail}}" alt="{{this.name}}" style="width: 80px; height: 80px;"></td>
+          <td><img src="{{firstThumbnail this.thumbnails}}" alt="{{this.name}}" style="width: 80px; height: 80px;"></td>
           <td>{{this.title}}</td>
           <td>{{this.category}}</td>
           <td>{{this.stock}}</td>
