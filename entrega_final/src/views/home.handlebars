@@ -29,216 +29,38 @@
 
   <div class="row gy-2 justify-content-center">
 
-    <div
-      class="card d-flex flex-column col-4 mx-2"
-      style="width: 18rem; height: 400px"
-    >
-      <img
-        src="..."
-        class="card-img-top bg-light"
-        alt="..."
-        style="min-height: 200px;"
-      />
-      <div class="card-body flex-grow-1">
-        <p class="card-text mb-1 text-secondary">Category</p>
-        <h5 class="card-title mb-1">Title</h5>
-        <p class="card-text mb-1">In stock: 9</p>
-        <p class="card-text mb-1 text-success fw-bold">$400</p>
-      </div>
-      <div class="d-flex justify-content-end mb-3 mx-3">
-        <a href="#" class="btn btn-success">Agregar al carrito</a>
-      </div>
-      <div class="position-absolute top-0 end-0 p-1">
-        <button class="btn p-1">
-          <i class="bi bi-pencil-square fs-5 text-primary"></i>
-        </button>
+    {{#each products}}
+      <div
+        class="card d-flex flex-column col-4 mx-2"
+        style="width: 18rem; height: 420px"
+      >
+        <img
+          src={{ lookup this.thumbnails 0}}
+          class="card-img-top bg-light mt-2"
+          alt="{{this.title}}"
+          style="min-height: 200px; height: 200px;"
+        />
+        <div class="card-body flex-grow-1">
+          <p class="card-text mb-1 text-secondary">{{this.category}}</p>
+          <h5 class="card-title mb-1">{{this.title}}</h5>
+          <p class="card-text mb-1">In stock: {{this.stock}}</p>
+          <p class="card-text mb-1 text-success fw-bold">${{this.price}}</p>
+        </div>
+        <div class="mb-3 mx-3">
+          <a href="#" class="btn btn-success">Agregar al carrito</a>
+        </div>
+        <div class="position-absolute top-0 end-0 p-1">
+          <button class="btn p-1">
+            <i class="bi bi-pencil-square fs-5 text-primary"></i>
+          </button>
 
-        <button class="btn p-1">
-          <i class="bi bi-trash fs-5 text-danger"></i>
-        </button>
+          <button class="btn p-1">
+            <i class="bi bi-trash fs-5 text-danger"></i>
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div
-      class="card d-flex flex-column col-4 mx-2"
-      style="width: 18rem; height: 400px"
-    >
-      <img
-        src="..."
-        class="card-img-top bg-light"
-        alt="..."
-        style="min-height: 200px;"
-      />
-      <div class="card-body flex-grow-1">
-        <p class="card-text mb-1 text-secondary">Category</p>
-        <h5 class="card-title mb-1">Title</h5>
-        <p class="card-text mb-1">In stock: 9</p>
-        <p class="card-text mb-1 text-success fw-bold">$400</p>
-      </div>
-      <div class="d-flex justify-content-end mb-3 mx-3">
-        <a href="#" class="btn btn-success">Agregar al carrito</a>
-      </div>
-      <div class="position-absolute top-0 end-0 p-1">
-        <button class="btn p-1">
-          <i class="bi bi-pencil-square fs-5 text-primary"></i>
-        </button>
-
-        <button class="btn p-1">
-          <i class="bi bi-trash fs-5 text-danger"></i>
-        </button>
-      </div>
-    </div>
-
-    <div
-      class="card d-flex flex-column col-4 mx-2"
-      style="width: 18rem; height: 400px"
-    >
-      <img
-        src="..."
-        class="card-img-top bg-light"
-        alt="..."
-        style="min-height: 200px;"
-      />
-      <div class="card-body flex-grow-1">
-        <p class="card-text mb-1 text-secondary">Category</p>
-        <h5 class="card-title mb-1">Title</h5>
-        <p class="card-text mb-1">In stock: 9</p>
-        <p class="card-text mb-1 text-success fw-bold">$400</p>
-      </div>
-      <div class="d-flex justify-content-end mb-3 mx-3">
-        <a href="#" class="btn btn-success">Agregar al carrito</a>
-      </div>
-      <div class="position-absolute top-0 end-0 p-1">
-        <button class="btn p-1">
-          <i class="bi bi-pencil-square fs-5 text-primary"></i>
-        </button>
-
-        <button class="btn p-1">
-          <i class="bi bi-trash fs-5 text-danger"></i>
-        </button>
-      </div>
-    </div>
-
-    <div
-      class="card d-flex flex-column col-4 mx-2"
-      style="width: 18rem; height: 400px"
-    >
-      <img
-        src="..."
-        class="card-img-top bg-light"
-        alt="..."
-        style="min-height: 200px;"
-      />
-      <div class="card-body flex-grow-1">
-        <p class="card-text mb-1 text-secondary">Category</p>
-        <h5 class="card-title mb-1">Title</h5>
-        <p class="card-text mb-1">In stock: 9</p>
-        <p class="card-text mb-1 text-success fw-bold">$400</p>
-      </div>
-      <div class="d-flex justify-content-end mb-3 mx-3">
-        <a href="#" class="btn btn-success">Agregar al carrito</a>
-      </div>
-      <div class="position-absolute top-0 end-0 p-1">
-        <button class="btn p-1">
-          <i class="bi bi-pencil-square fs-5 text-primary"></i>
-        </button>
-
-        <button class="btn p-1">
-          <i class="bi bi-trash fs-5 text-danger"></i>
-        </button>
-      </div>
-    </div>
-
-    <div
-      class="card d-flex flex-column col-4 mx-2"
-      style="width: 18rem; height: 400px"
-    >
-      <img
-        src="..."
-        class="card-img-top bg-light"
-        alt="..."
-        style="min-height: 200px;"
-      />
-      <div class="card-body flex-grow-1">
-        <p class="card-text mb-1 text-secondary">Category</p>
-        <h5 class="card-title mb-1">Title</h5>
-        <p class="card-text mb-1">In stock: 9</p>
-        <p class="card-text mb-1 text-success fw-bold">$400</p>
-      </div>
-      <div class="d-flex justify-content-end mb-3 mx-3">
-        <a href="#" class="btn btn-success">Agregar al carrito</a>
-      </div>
-      <div class="position-absolute top-0 end-0 p-1">
-        <button class="btn p-1">
-          <i class="bi bi-pencil-square fs-5 text-primary"></i>
-        </button>
-
-        <button class="btn p-1">
-          <i class="bi bi-trash fs-5 text-danger"></i>
-        </button>
-      </div>
-    </div>
-
-    <div
-      class="card d-flex flex-column col-4 mx-2"
-      style="width: 18rem; height: 400px"
-    >
-      <img
-        src="..."
-        class="card-img-top bg-light"
-        alt="..."
-        style="min-height: 200px;"
-      />
-      <div class="card-body flex-grow-1">
-        <p class="card-text mb-1 text-secondary">Category</p>
-        <h5 class="card-title mb-1">Title</h5>
-        <p class="card-text mb-1">In stock: 9</p>
-        <p class="card-text mb-1 text-success fw-bold">$400</p>
-      </div>
-      <div class="d-flex justify-content-end mb-3 mx-3">
-        <a href="#" class="btn btn-success">Agregar al carrito</a>
-      </div>
-      <div class="position-absolute top-0 end-0 p-1">
-        <button class="btn p-1">
-          <i class="bi bi-pencil-square fs-5 text-primary"></i>
-        </button>
-
-        <button class="btn p-1">
-          <i class="bi bi-trash fs-5 text-danger"></i>
-        </button>
-      </div>
-    </div>
-
-    <div
-      class="card d-flex flex-column col-4 mx-2"
-      style="width: 18rem; height: 400px"
-    >
-      <img
-        src="..."
-        class="card-img-top bg-light"
-        alt="..."
-        style="min-height: 200px;"
-      />
-      <div class="card-body flex-grow-1">
-        <p class="card-text mb-1 text-secondary">Category</p>
-        <h5 class="card-title mb-1">Title</h5>
-        <p class="card-text mb-1">In stock: 9</p>
-        <p class="card-text mb-1 text-success fw-bold">$400</p>
-      </div>
-      <div class="d-flex justify-content-end mb-3 mx-3">
-        <a href="#" class="btn btn-success">Agregar al carrito</a>
-      </div>
-      <div class="position-absolute top-0 end-0 p-1">
-        <button class="btn p-1">
-          <i class="bi bi-pencil-square fs-5 text-primary"></i>
-        </button>
-
-        <button class="btn p-1">
-          <i class="bi bi-trash fs-5 text-danger"></i>
-        </button>
-      </div>
-    </div>
-
+    {{/each}}
   </div>
 
   <div class="d-flex justify-content-center my-3">
