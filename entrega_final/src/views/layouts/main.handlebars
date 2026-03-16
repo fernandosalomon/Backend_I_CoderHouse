@@ -34,22 +34,28 @@
         </div>
 
         <form
-          class="d-flex align-items-center mb-0 justify-item-center"
+          class="d-flex align-items-center mb-0 justify-item-center flex-grow-1"
           role="search"
+          style="max-width: 75%;"
         >
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="bi bi-search"></i>
+            </div>
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Buscar producto"
+              aria-label="Search"
+            />
+          </div>
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
 
         <div>
 
           <button type="button" class="btn">
-            <i class="bi bi-plus-square-fill fs-2"></i>
+            <i class="bi bi-plus-square-fill fs-2 text-primary"></i>
           </button>
 
           <button type="button" class="btn">
