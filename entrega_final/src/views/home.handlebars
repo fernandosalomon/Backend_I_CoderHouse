@@ -29,7 +29,7 @@
 
   <div class="row gy-2 justify-content-center">
 
-    {{#each products}}
+    {{#each products.payload}}
       <div
         class="card d-flex flex-column col-4 mx-2"
         style="width: 18rem; height: 420px"
@@ -71,9 +71,10 @@
             <span aria-hidden="true">&laquo;</span>
           </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        {{#each products.links}}
+          <li class="page-item"><a class="page-link" href={{this.link}}>{{this.text}}</a></li>
+        {{/each}}
+      
         <li class="page-item">
           <a class="page-link" href="#" aria-label="Next">
             <span aria-hidden="true">&raquo;</span>

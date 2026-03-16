@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import paginate from 'mongoose-paginate-v2'
 
 const ProductSchema = mongoose.Schema({
   title: {
@@ -54,6 +55,8 @@ const ProductSchema = mongoose.Schema({
     default: ["/public/img/default_product.png"],
   },
 });
+
+mongoose.plugin(paginate);
 
 const Product = mongoose.model("Product", ProductSchema);
 
