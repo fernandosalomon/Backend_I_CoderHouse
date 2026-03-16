@@ -26,7 +26,7 @@ const ProductSchema = mongoose.Schema({
   price: {
     type: mongoose.Types.Decimal128,
     min: 0,
-    required,
+    required: true,
   },
   status: {
     type: Boolean,
@@ -34,7 +34,7 @@ const ProductSchema = mongoose.Schema({
   },
   stock: {
     type: Number,
-    required,
+    required: true,
     min: 0,
   },
   category: {

@@ -1,10 +1,10 @@
-import Router from "express";
+import express from "express";
 import {
   getAllProducts,
   getProductByID,
 } from "../controllers/products.controller.js";
 
-const productRouter = Router();
+const productRouter = express.Router();
 
 productRouter.get("/", getAllProducts);
 productRouter.get("/:pid", getProductByID);
