@@ -18,7 +18,13 @@ viewsRouter.get("/", async (req, res) => {
         links.push({link: `?limit=10&page=${page}`, text: `${page}`})
        }
 
-       products = {payload: products, ...data, links };
+       const categories = [];
+
+       products.map(product => {
+        if(!categories.includes(product.category)) categories.push(product.category)
+       })
+        
+       products = {payload: products, ...data, links, categories: categories };
 
        res.render("home", {products});
      } catch (error) {
