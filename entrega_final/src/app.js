@@ -10,6 +10,7 @@ dotenv.config();
 const PORT = process.env.PORT;
 
 import mongoConnect from "./configs/db.config.js";
+import productRouter from "./routes/products.routes.js";
 mongoConnect();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,6 +24,7 @@ server.set("views", path.join(__dirname, "views"));
 //Endpoints
 
 server.get("/", viewsRouter);
+server.get("/api/products", productRouter);
 
 server.listen(PORT, () => {
   console.log(`Servidor iniciado en el puerto ${PORT}`);
