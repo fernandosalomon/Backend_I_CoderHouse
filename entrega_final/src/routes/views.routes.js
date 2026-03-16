@@ -6,9 +6,21 @@ const viewsRouter = express.Router();
 viewsRouter.get("/", async (req, res) => {
 
      try {
-       const { limit = 10, page = 1 } = req.query;
-       const data = await Product.paginate({}, { limit, page, lean: true });
-    
+       const { limit = 10, page = 1, searchByCategory = "all" } = req.query;
+       let data;
+       
+       if(searchByCategory == 'all'){
+        data = await Product.paginate(
+          {},
+          { limit, page, lean: true },
+        );
+       }else{
+        data = await Product.paginate(
+          { category: [searchByCategory] },
+          { limit, page, lean: true },
+        );
+       }
+
        let products = data.docs;
        delete(data.docs);
 
@@ -20,7 +32,9 @@ viewsRouter.get("/", async (req, res) => {
 
        const categories = [];
 
-       products.map(product => {
+       const allCategories = await Product.find().select("category").lean();
+
+       allCategories.map(product => {
         if(!categories.includes(product.category)) categories.push(product.category)
        })
         

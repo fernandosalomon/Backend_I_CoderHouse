@@ -1,17 +1,23 @@
-<div class="container">
+<div class="container-fluid">
 
   <div class="d-flex gap-1 my-3">
-    <div class="flex-grow-1 d-flex gap-1 align-items-center">
+    <div class="flex-grow-1 d-flex gap-1 align-items-center w-75">
       <p class="m-0">Categorias: </p>
-      {{#each products.categories}}
-      <span class="badge text-bg-light">{{this}}</span>
-      {{/each}}
-    <span>|</span>
-    <span class="badge text-bg-success">Todas las categorias</span> 
+      <div class="d-flex flex-wrap gap-1">
+        {{#each products.categories}}
+          <button
+            class="badge text-bg-light"
+            style="cursor: pointer;"
+            onclick="updateQuery('{{this}}')"
+          >{{this}}</button>
+        {{/each}}
+        <span>|</span>
+        <button class="badge text-bg-success" onclick="updateQuery('all')">Todas las categorias</button>
+      </div>
     </div>
 
-    <div class="d-flex align-items-center justify-content-center gap-2">
-      
+    <div class="d-flex align-items-center justify-content-center gap-2 ms-2">
+
       <form action="" class="mb-0 d-flex gap-2">
         <label for="productsPerPage">
           Productos por página
@@ -30,60 +36,65 @@
     </div>
   </div>
 
-  <div class="row gy-2 justify-content-center">
+  <div class="container">
+    <div class="row gy-2 justify-content-center">
 
-    {{#each products.payload}}
-      <div
-        class="card d-flex flex-column col-4 mx-2"
-        style="width: 18rem; height: 420px"
-      >
-        <img
-          src={{ lookup this.thumbnails 0}}
-          class="card-img-top bg-light mt-2"
-          alt="{{this.title}}"
-          style="min-height: 200px; height: 200px;"
-        />
-        <div class="card-body flex-grow-1">
-          <p class="card-text mb-1 text-secondary">{{this.category}}</p>
-          <h5 class="card-title mb-1">{{this.title}}</h5>
-          <p class="card-text mb-1">In stock: {{this.stock}}</p>
-          <p class="card-text mb-1 text-success fw-bold">${{this.price}}</p>
+      {{#each products.payload}}
+        <div
+          class="card d-flex flex-column col-4 mx-2"
+          style="width: 18rem; height: 420px"
+        >
+          <img
+            src={{lookup this.thumbnails 0}}
+            class="card-img-top bg-light mt-2"
+            alt="{{this.title}}"
+            style="min-height: 200px; height: 200px;"
+          />
+          <div class="card-body flex-grow-1">
+            <p class="card-text mb-1 text-secondary">{{this.category}}</p>
+            <h5 class="card-title mb-1">{{this.title}}</h5>
+            <p class="card-text mb-1">In stock: {{this.stock}}</p>
+            <p class="card-text mb-1 text-success fw-bold">${{this.price}}</p>
+          </div>
+          <div class="mb-3 mx-3">
+            <a href="#" class="btn btn-success">Agregar al carrito</a>
+          </div>
+          <div class="position-absolute top-0 end-0 p-1">
+            <button class="btn p-1">
+              <i class="bi bi-pencil-square fs-5 text-primary"></i>
+            </button>
+
+            <button class="btn p-1">
+              <i class="bi bi-trash fs-5 text-danger"></i>
+            </button>
+          </div>
         </div>
-        <div class="mb-3 mx-3">
-          <a href="#" class="btn btn-success">Agregar al carrito</a>
-        </div>
-        <div class="position-absolute top-0 end-0 p-1">
-          <button class="btn p-1">
-            <i class="bi bi-pencil-square fs-5 text-primary"></i>
-          </button>
 
-          <button class="btn p-1">
-            <i class="bi bi-trash fs-5 text-danger"></i>
-          </button>
-        </div>
-      </div>
+      {{/each}}
+    </div>
 
-    {{/each}}
-  </div>
+    <div class="d-flex justify-content-center my-3">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {{#each products.links}}
+            <li class="page-item"><a
+                class="page-link"
+                href={{this.link}}
+              >{{this.text}}</a></li>
+          {{/each}}
 
-  <div class="d-flex justify-content-center my-3">
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        {{#each products.links}}
-          <li class="page-item"><a class="page-link" href={{this.link}}>{{this.text}}</a></li>
-        {{/each}}
-      
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
 </div>
