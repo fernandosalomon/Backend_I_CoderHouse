@@ -11,6 +11,7 @@ const PORT = process.env.PORT;
 
 import mongoConnect from "./configs/db.config.js";
 import productRouter from "./routes/products.routes.js";
+import cartRouter from "./routes/cart.routes.js";
 mongoConnect();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,6 +28,7 @@ server.set("views", path.join(__dirname, "views"));
 //Endpoints
 
 server.use("/api/products", productRouter);
+server.use("/api/carts", cartRouter);
 server.use("/", viewsRouter);
 
 server.listen(PORT, () => {
