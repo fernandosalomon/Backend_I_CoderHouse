@@ -133,4 +133,77 @@ export const deleteCart = async (req, res) => {
     }
 }
 
+export const updateProductQuantity = async (req, res) => {
+    try {
+        const cid = req.params.cid;
+        const pid = req.params.pid;
+        const {quantity} = req.body;
 
+        const cartData = await Cart.findById(cid);
+        if (!cartData)
+          res
+            .status(404)
+            .json({ status: "error", message: "Carrito no encontrado" });
+
+        const productIndex = cartData.products.findIndex(
+          (product) => product.product == pid,
+        );
+
+        if (productIndex == -1)
+          res
+            .status(404)
+            .json({
+              status: "error",
+              message: "Producto no encontrado en el carrito",
+            });
+        
+        cartData.products[productIndex].quantity = quantity;
+
+        const updatedCart = await cartData.save({
+            returnDocument: "after",
+            runValidator: true
+        })
+
+        res
+          .status(200)
+          .json({
+            status: "success",
+            payload: cartData.products[productIndex],
+          });
+
+
+    } catch (error) {
+         res.status(500).json({
+           status: "error",
+           message: `Error al modificar la cantidad del producto en el carrito (${error})`,
+         });
+    }
+}
+
+export const updateProductList = async (req, res) => {
+    try {
+        const cid = req.params.cid;
+        const cartData = await Cart.findById(cid);
+        if (!cartData)
+          res
+            .status(404)
+            .json({ status: "error", message: "Carrito no encontrado" });
+
+        const {products} = req.body;
+
+        cartData.products = products;
+
+        const updatedCart = await cartData.save({
+            returnDocument: "after",
+            runValidators: true
+        })
+
+        res.status(200).json({status: "success", payload: updatedCart})
+
+    } catch (error) {
+        res.status(500).json({
+          status: "error",
+          message: `Error al modificar la lista de productos en el carrito (${error})`,
+        });
+    }
+}
