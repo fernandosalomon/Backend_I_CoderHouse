@@ -1,0 +1,50 @@
+.product-category {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.product-name {
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-stock {
+  font-size: 14px;
+}
+
+.product-price {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.product-image-detail {
+  width: 80%;
+}
+
+.product-category-detail {
+  font-size: 16px;
+  font-style: italic;
+}
+
+.product-name-detail {
+  font-size: 24px;
+  font-weight: 700;
+  border-bottom: 1px solid gainsboro;
+  padding-bottom: 8px;
+}
+
+.product-description-detail {
+  font-size: 18px;
+}
+
+.product-stock-detail {
+  font-size: 16px;
+}
+
+.product-price-detail{
+    font-size: 24px;
+    font-weight: 700;
+}

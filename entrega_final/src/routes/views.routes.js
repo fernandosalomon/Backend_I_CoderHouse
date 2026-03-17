@@ -86,4 +86,19 @@ viewsRouter.get("/realTimeProducts", async (req, res) => {
   }
 });
 
+viewsRouter.get("/product/:pid", async (req, res) => {
+  try {
+    const pid = req.params.pid;
+    const productData = await Product.findById(pid).lean();
+    if(!productData) res.status(404).json({status: "error", message: "Producto no encontrado"})
+    
+      console.log(productData);
+
+    res.render("productInformation", productData);
+    
+  } catch (error) {
+    console.log(`Error al recuperar los productos (${error})`);
+  }
+})
+
 export default viewsRouter;
