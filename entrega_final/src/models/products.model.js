@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import paginate from 'mongoose-paginate-v2'
+import paginate from "mongoose-paginate-v2";
 
 const ProductSchema = mongoose.Schema(
   {
@@ -56,10 +56,19 @@ const ProductSchema = mongoose.Schema(
       default: ["/public/img/default_product.png"],
     },
   },
-  { timestamp: true },
+  { timestamps: true },
 );
 
 mongoose.plugin(paginate);
+
+ProductSchema.index({ title: 1 }, { unique: true });
+ProductSchema.index({ code: 1 }, { unique: true });
+
+ProductSchema.index({ title: "text" });
+ProductSchema.index({ description: "text" });
+
+ProductSchema.index({ price: 1 });
+ProductSchema.index({ category: 1 });
 
 const Product = mongoose.model("Product", ProductSchema);
 
