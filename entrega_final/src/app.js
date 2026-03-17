@@ -37,7 +37,14 @@ app.use(express.static("public"));
 
 //Handlebars config
 import handlebars from "express-handlebars";
-app.engine("handlebars", handlebars.engine());
+app.engine(
+  "handlebars",
+  handlebars.engine({
+    helpers: {
+      json: (context) => JSON.stringify(context),
+    },
+  }),
+);
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "views"));
 
@@ -55,6 +62,21 @@ io.on("connection", (socket) => {
       const addedProduct = await Product.create(productData);
 
       io.emit("added product", addedProduct);
+    } catch (error) {
+      console.error(error.message);
+    }
+  });
+
+  socket.on("update product", async (productData) => {
+    try {
+      const {_id, ...updateProductData} = productData
+        
+      const updatedProduct = await Product.findByIdAndUpdate(_id, updateProductData,  {
+        returnDocument : "after",
+        runValidators: true
+      });
+      
+      io.emit("updated product", updatedProduct);
     } catch (error) {
       console.error(error.message);
     }
