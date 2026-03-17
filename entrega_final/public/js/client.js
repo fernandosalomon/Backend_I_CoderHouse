@@ -122,6 +122,8 @@ socket.on("added product", (newProduct) => {
   const productCardRow = document.getElementById("product-card-wrapper");
 
   const productCard = document.createElement("div");
+  productCard.classList = "card d-flex flex-column col-4 mx-2";
+  productCard.style = "width: 18rem; height: 420px;";
   productCard.innerHTML = `
     <img
       src=${newProduct.thumbnails[0]}
@@ -149,6 +151,7 @@ socket.on("added product", (newProduct) => {
     </div>
   `;
   
+  productCardRow.appendChild(productCard);
 
   newProductForm.reset();
   modal.hide();

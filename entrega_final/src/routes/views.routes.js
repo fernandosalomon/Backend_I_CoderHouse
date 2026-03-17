@@ -1,72 +1,100 @@
-import express from 'express';
-import Product from '../models/products.model.js';
+import express from "express";
+import Product from "../models/products.model.js";
+import Cart from "../models/cart.model.js";
 
 const viewsRouter = express.Router();
 
 viewsRouter.get("/products", async (req, res) => {
-
-     try {
-       const { limit = 10, page = 1, searchByCategory = "all" } = req.query;
-       let data;
-       
-       if(searchByCategory == 'all'){
-        data = await Product.paginate(
-          {},
-          { limit, page, lean: true },
-        );
-       }else{
-        data = await Product.paginate(
-          { category: [searchByCategory] },
-          { limit, page, lean: true },
-        );
-       }
-
-       let products = data.docs;
-       delete(data.docs);
-
-       const links = [];
-
-       for(let page = 1; page <= data.totalPages; page++){
-        links.push({link: `?limit=10&page=${page}`, text: `${page}`})
-       }
-
-       const categories = [];
-
-       const allCategories = await Product.find().select("category").lean();
-
-       allCategories.map(product => {
-        if(!categories.includes(product.category)) categories.push(product.category)
-       })
-        
-       products = {payload: products, ...data, links, categories: categories };
-
-       res.render("products", {products});
-     } catch (error) {
-       console.log(`Error al recuperar los productos (${error})`);
-     }
-})
-
-viewsRouter.get("/realTimeProducts", async (req, res) => {
   try {
-    const { limit = 10, page = 1, searchByCategory = "all" } = req.query;
-    let data;
+    const { limit = 10, page = 1, searchByCategory, sort, filter } = req.query;
 
-    if (searchByCategory == "all") {
-      data = await Product.paginate({}, { limit, page, lean: true });
-    } else {
-      data = await Product.paginate(
-        { category: [searchByCategory] },
-        { limit, page, lean: true },
-      );
+    const query = {};
+
+    if (filter) {
+      query.$or = [
+        { title: { $regex: filter, $options: "i" } },
+        { description: { $regex: filter, $options: "i" } },
+      ];
     }
+
+    if (searchByCategory) {
+      query.category = searchByCategory;
+    }
+
+    const options = {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      lean: true,
+    };
+
+    if (sort) {
+      options.sort = { price: sort === "asc" ? -1 : 1 };
+    }
+
+    const data = await Product.paginate(query, options);
 
     let products = data.docs;
     delete data.docs;
 
     const links = [];
 
-    for (let page = 1; page <= data.totalPages; page++) {
-      links.push({ link: `?limit=10&page=${page}`, text: `${page}` });
+    for (let p = 1; p <= data.totalPages; p++) {
+      links.push({ link: `?limit=10&page=${p}`, text: `${p}` });
+    }
+
+    const categories = [];
+
+    const allCategories = await Product.find().select("category").lean();
+
+    allCategories.map((product) => {
+      if (!categories.includes(product.category))
+        categories.push(product.category);
+    });
+
+    products = { payload: products, ...data, links, categories: categories };
+
+    res.render("products", { products });
+  } catch (error) {
+    console.log(`Error al recuperar los productos (${error})`);
+  }
+});
+
+viewsRouter.get("/realTimeProducts", async (req, res) => {
+  try {
+    const { limit = 10, page = 1, searchByCategory, sort, filter } = req.query;
+
+    const query = {};
+
+    if (filter) {
+      query.$or = [
+        { title: { $regex: filter, $options: "i" } },
+        { description: { $regex: filter, $options: "i" } },
+      ];
+    }
+
+    if (searchByCategory) {
+      query.category = searchByCategory;
+    }
+
+    const options = {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      lean: true,
+    };
+
+    if (sort) {
+      options.sort = { price: sort === "asc" ? -1 : 1 };
+    }
+
+    const data = await Product.paginate(query, options);
+
+    let products = data.docs;
+    delete data.docs;
+
+    const links = [];
+
+    for (let p = 1; p <= data.totalPages; p++) {
+      links.push({ link: `?limit=10&page=${p}`, text: `${p}` });
     }
 
     const categories = [];
@@ -90,12 +118,31 @@ viewsRouter.get("/product/:pid", async (req, res) => {
   try {
     const pid = req.params.pid;
     const productData = await Product.findById(pid).lean();
-    if(!productData) res.status(404).json({status: "error", message: "Producto no encontrado"})
-    
-      console.log(productData);
+    if (!productData)
+      res
+        .status(404)
+        .json({ status: "error", message: "Producto no encontrado" });
 
     res.render("productInformation", productData);
+  } catch (error) {
+    console.log(`Error al recuperar los productos (${error})`);
+  }
+});
+
+viewsRouter.get("/carts", async (req, res) => {
+  try {
+
+    const carts = await Cart.find().populate("products.product").lean();
     
+    const {cartID} = req.query;
+
+    const cartIndex = carts.findIndex(cart => cart._id == cartID);
+
+    if(cartIndex == -1) res.render("carts", { carts });
+
+    const cartProducts = carts[cartIndex].products;
+
+    res.render("carts", {carts, cartProducts});
   } catch (error) {
     console.log(`Error al recuperar los productos (${error})`);
   }

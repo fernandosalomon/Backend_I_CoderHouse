@@ -15,25 +15,6 @@
       </button>
     </div>
 
-    <form
-      class="d-flex align-items-center mb-0 justify-item-center flex-grow-1"
-      role="search"
-      style="max-width: 75%;"
-    >
-      <div class="input-group">
-        <div class="input-group-text">
-          <i class="bi bi-search"></i>
-        </div>
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Buscar producto"
-          aria-label="Search"
-        />
-      </div>
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
-
     <div>
       <button type="button" class="btn">
         <i class="bi bi-cart3 fs-4"></i>
@@ -45,42 +26,63 @@
 </nav>
 
 <div class="container-fluid">
-  <div class="d-flex gap-1 my-3">
-    <div class="flex-grow-1 d-flex gap-1 align-items-center w-75">
-      <p class="m-0">Categorias: </p>
-      <div class="d-flex flex-wrap gap-1">
-        {{#each products.categories}}
-          <button
-            class="badge text-bg-light"
-            style="cursor: pointer;"
-            onclick="updateQuery('{{this}}')"
-          >{{this}}</button>
-        {{/each}}
-        <span>|</span>
-        <button class="badge text-bg-success" onclick="updateQuery('all')">Todas
-          las categorias</button>
+  <form class="d-flex my-3 gap-1" id="productQueryForm">
+    <div class="input-group">
+      <div class="input-group-text">
+        <i class="bi bi-search"></i>
       </div>
+      <input
+        class="form-control"
+        type="search"
+        placeholder="Buscar producto"
+        aria-label="Search"
+        id="productFilter"
+        name="filter"
+        default=""
+      />
     </div>
 
-    <div class="d-flex align-items-center justify-content-center gap-2 ms-2">
+    <select
+      class="form-select"
+      aria-label="select product category"
+      name="searchByCategory"
+      id="searchByCategory"
+      default="all"
+    >
+      <option value="">Seleccionar categoría</option>
+      {{#each products.categories}}
+        <option value={{this}}>{{this}}</option>
+      {{/each}}
+    </select>
 
-      <form action="" class="mb-0 d-flex gap-2">
-        <label for="productsPerPage">
-          Productos por página
-        </label>
-        <select
-          class="form-select form-select-sm"
-          aria-label="Products Per Page"
-          id="productsPerPage"
-        >
-          <option value="10" selected>10</option>
-          <option value="20">20</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
-      </form>
-    </div>
-  </div>
+    <select
+      class="form-select"
+      aria-label="sort product"
+      id="sortProducts"
+      name="sort"
+      default="none"
+    >
+      <option value="">Ordenar por precio</option>
+      <option value="asc">Mayor precio</option>
+      <option value="desc">Menor precio</option>
+    </select>
+
+    <select
+      class="form-select form-select-sm"
+      aria-label="Products Per Page"
+      id="productsPerPage"
+      name="limit"
+      default="10"
+    >
+      <option value="">Productos por página</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select>
+
+    <button class="btn btn-primary" type="submit">Filtrar</button>
+  </form>
 
   <div class="container">
     <div class="row gy-2 justify-content-center">
@@ -122,7 +124,8 @@
             >${{this.price}}</p>
           </div>
 
-          <a href="#" class="btn btn-primary mb-3 w-100">Ver más</a>
+          <a href="/product/{{this._id}}" class="btn btn-primary mb-3 w-100">Ver
+            más</a>
 
         </div>
 
@@ -154,3 +157,5 @@
     </div>
   </div>
 </div>
+
+<script src="/js/query.js"></script>

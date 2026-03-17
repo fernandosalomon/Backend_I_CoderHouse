@@ -1,0 +1,125 @@
+<div class="container-fluid">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <div>
+        <a class="navbar-brand" href="#">MyCommerce</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <div>
+        <button
+          type="button"
+          class="btn"
+          data-bs-toggle="modal"
+          data-bs-target="#addNewProductModal"
+        >
+          <i class="bi bi-plus-square-fill fs-2 text-primary"></i>
+        </button>
+
+        <button type="button" class="btn">
+          <i class="bi bi-cart3 fs-4"></i>
+        </button>
+
+      </div>
+
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+
+    <form>
+       <select
+      class="form-select"
+      aria-label="select cart"
+      name="cartSelect"
+      id="cartSelect"
+    >
+      <option value="" disabled selected={{cart._id}}>Seleccionar carrito</option>
+      {{#each carts}}
+        <option value={{this._id}}>{{this._id}}</option>
+      {{/each}}
+    </select>
+    <form>
+
+    <div class="container">
+      <div class="row mt-3 gy-2 justify-content-center" id="product-card-wrapper">
+
+
+          <table class="table">
+    <thead>
+      <tr class="table-primary">
+        <th scope="col"></th>
+        <th scope="col">Producto</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Cantidad</th>
+        <th scope="col">Subtotal</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody id="productTable">
+      {{#each cartProducts}}
+        <tr id="id-{{this.id}}">
+          <td><img src="{{lookup this.product.thumbnails 0}}" alt="{{this.product.name}}" style="width: 80px; height: 80px;"></td>
+          <td>{{this.product.title}}</td>
+          <td>${{this.product.price}}</td>
+          <td>
+            <input id="productQuantity" value={{this.quantity}} type="number"/>
+          </td>
+          <td>`${({{this.product.price}} * {{this.quant}}).toFixed(2)}`</td>
+          <td><button
+              class="btn btn-danger"
+              onclick="deleteProduct({{this.product.id}})"
+            >Borrar</button></td>
+        </tr>
+      {{/each}}
+      <tr>
+        <td colspan="6" class="text-end">
+          <p class="m-0 fs-3 me-2">Subtotal <span>$1666</span></p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-primary btn-lg">Realizar pago</button>
+  </div>
+    
+      </div>
+
+      <div class="d-flex justify-content-center my-3">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {{#each products.links}}
+              <li class="page-item"><a
+                  class="page-link"
+                  href={{this.link}}
+                >{{this.text}}</a></li>
+            {{/each}}
+
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/cart.js"></script>
