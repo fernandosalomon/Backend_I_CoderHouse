@@ -1,50 +1,50 @@
-<div class="container-fluid">
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <div>
-        <a class="navbar-brand" href="#">MyCommerce</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <div>
+      <a class="navbar-brand" href="#">MyCommerce</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
 
-      <div>
-        <button
-          type="button"
-          class="btn"
-          data-bs-toggle="modal"
-          data-bs-target="#addNewProductModal"
-        >
-          <i class="bi bi-plus-square-fill fs-2 text-primary"></i>
-        </button>
-
-        <button type="button" class="btn">
-          <i class="bi bi-cart3 fs-4"></i>
-        </button>
-
-      </div>
+    <div class="d-flex">
+      <button
+        type="button"
+        class="btn d-flex align-items-center gap-2 bg-primary text-white"
+        id="addNewCartBtn"
+      >
+        <i class="bi bi-plus-square-fill fs-4 text-white"></i>
+        <p class="fs-5 m-0">Agregar nuevo carrito</p>
+      </button>
 
     </div>
-  </nav>
 
+  </div>
+</nav>
+<div class="container-fluid">
   <div class="container-fluid">
 
-    <form>
-       <select class="form-select" aria-label="select cart" name="cartSelect" id="cartSelect">
+    <form class="my-3">
+      <select
+        class="form-select"
+        aria-label="select cart"
+        name="cartSelect"
+        id="cartSelect"
+      >
         <option value="" disabled selected={{cart._id}}>Seleccionar carrito</option>
         {{#each carts}}
           <option value={{this._id}}>{{this._id}}</option>
         {{/each}}
       </select>
-    <form>
+    </form>
 
     <div class="container">
       <table class="table">
@@ -61,18 +61,31 @@
         <tbody id="productTable">
           {{#each cartProducts}}
             <tr id="id-{{this.id}}">
-              <td><img src="{{lookup this.product.thumbnails 0}}" alt="{{this.product.name}}" style="width: 80px; height: 80px;"></td>
+              <td><img
+                  src="{{lookup this.product.thumbnails 0}}"
+                  alt="{{this.product.name}}"
+                  style="width: 80px; height: 80px;"
+                /></td>
               <td>{{this.product.title}}</td>
               <td>${{this.product.price}}</td>
               <td>
-                <input id="productQuantity" value={{this.quantity}} type="number"/>
+                <input
+                  id="productQuantity"
+                  value={{this.quantity}}
+                  type="number"
+                  onchange="modifyQuantity(event, '{{this.product._id}}')"
+                />
               </td>
               <td>${{this.subtotal}}</td>
-              <td><button class="btn btn-danger" onclick="deleteProduct({{this.product.id}})">Borrar</button></td>
+              <td><button
+                  class="btn btn-danger"
+                  onclick="deleteProduct('{{this.product._id}}')"
+                >Borrar</button></td>
             </tr>
           {{/each}}
           <tr>
-            <td colspan="6" class="text-end"><p class="m-0 fs-3 me-2">Subtotal <span>$1666</span></p></td>
+            <td colspan="6" class="text-end"><p class="m-0 fs-3 me-2">Subtotal
+                <span>$1666</span></p></td>
           </tr>
         </tbody>
       </table>
@@ -82,30 +95,31 @@
     </div>
 
     <div class="d-flex justify-content-center my-3">
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            {{#each products.links}}
-              <li class="page-item"><a
-                  class="page-link"
-                  href={{this.link}}
-                >{{this.text}}</a></li>
-            {{/each}}
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {{#each products.links}}
+            <li class="page-item"><a
+                class="page-link"
+                href={{this.link}}
+              >{{this.text}}</a></li>
+          {{/each}}
 
-            <li class="page-item">
-              <a class="page-link" href="#" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+          <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
-  
+
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/js/cart.js"></script>

@@ -69,7 +69,7 @@ io.on("connection", (socket) => {
       console.error(error.message);
     }
   });
-})
+});
 
 server.listen(PORT, () => {
   console.log(`Servidor iniciado en el puerto ${PORT}`);
