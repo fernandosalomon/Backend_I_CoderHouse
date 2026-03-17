@@ -1,13 +1,60 @@
+const socket = io();
 const select = document.getElementById("cartSelect");
 
-select.addEventListener("change", function () {
-  const cart = this.value;
+select.addEventListener("change", (event) => {
+  event.preventDefault();
+
+  const cart = event.target.value;
+
+  event.target.selected = true;
 
   if (cart) {
-    window.location.href = `/carts?cartID=${cart}`;
-  } else {
-    window.location.href = `/carts`;
+    const url = new URL(window.location);
+    url.searchParams.set("cartID", cart);
+    history.pushState({}, "", url);
   }
+  socket.emit("change cart", cart);
+});
+
+socket.on("found cart", (cartData) => {
+    
+    const productTable = document.getElementById("productTable");
+    const oldTbody = document.getElementById("productTableTbody")
+    const newTbody = document.createElement("tbody");
+    newTbody.id = "productTableTbody";
+    
+    cartData.products.map(product => {
+        newTbody.innerHTML += `
+            <tr id="id-${product.product._id}">
+              <td><img
+                  src="${product.product.thumbnails[0]}"
+                  alt="${product.product.title}"
+                  style="width: 80px; height: 80px;"
+                /></td>
+              <td>${product.product.title}</td>
+              <td>${product.product.price}</td>
+              <td>
+                <input
+                  id="productQuantity"
+                  value=${product.quantity}
+                  type="number"
+                  onchange="modifyQuantity(event, '${product.product._id}')"
+                />
+              </td>
+              <td></td>
+              <td><button
+                  class="btn btn-danger"
+                  onclick="deleteProduct('${product.product._id}')"
+                >Borrar</button></td>
+            </tr>
+        `;
+    })
+    
+    if(oldTbody){
+        productTable.replaceChild(newTbody, oldTbody);
+    }else{
+        productTable.appendChild(newTbody)
+    }
 });
 
 const addNewCartBtn = document.getElementById("addNewCartBtn");
@@ -60,8 +107,7 @@ const modifyQuantity = async (e, productID) => {
 
     const result = await response.json();
 
-    console.log(result)
-
+    console.log(result);
   } catch (error) {
     Swal.fire({
       icon: "error",
@@ -70,7 +116,6 @@ const modifyQuantity = async (e, productID) => {
     });
   }
 };
-
 
 const deleteProduct = async (productID) => {
   try {

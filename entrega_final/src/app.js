@@ -1,4 +1,3 @@
-
 //dotenv config
 import dotenv from "dotenv";
 dotenv.config();
@@ -24,6 +23,7 @@ const io = new Server(server);
 import mongoConnect from "./configs/db.config.js";
 mongoConnect();
 import Product from "./models/products.model.js";
+import Cart from "./models/cart.model.js";
 
 //Router
 import productRouter from "./routes/products.routes.js";
@@ -65,6 +65,20 @@ io.on("connection", (socket) => {
       const deletedProduct = await Product.findByIdAndDelete(productID);
 
       io.emit("deleted product", { productID });
+    } catch (error) {
+      console.error(error.message);
+    }
+  });
+
+  socket.on("change cart", async (cartID) => {
+    try {
+      const cartData = await Cart.findById(cartID).populate("products.product").lean();
+
+      if (!cartData) {
+        throw new Error("Carrito no encontrado");
+      }
+
+      io.emit("found cart", cartData);
     } catch (error) {
       console.error(error.message);
     }
