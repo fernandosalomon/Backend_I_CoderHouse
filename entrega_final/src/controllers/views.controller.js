@@ -115,12 +115,15 @@ export const productDetailView = async (req, res) => {
   try {
     const pid = req.params.pid;
     const productData = await Product.findById(pid).lean();
+
+    const cartList = await Cart.find().lean();
+    
     if (!productData)
       res
         .status(404)
         .json({ status: "error", message: "Producto no encontrado" });
 
-    res.render("productInformation", productData);
+    res.render("productInformation", { productData, cartList });
   } catch (error) {
     console.log(`Error al recuperar los productos (${error})`);
   }

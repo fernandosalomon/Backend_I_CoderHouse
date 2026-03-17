@@ -210,7 +210,7 @@ socket.on("added product", (newProduct) => {
       <p class="card-text mb-1 text-success fw-bold product-price">$${Number(newProduct.price.$numberDecimal).toFixed(2)}</p>
     </div>
     <div class="mb-3 d-flex justify-content-between w-100">
-      <a href="/product/{{this._id}}" class="btn btn-primary w-100">Ver más</a>
+      <a href=/product/${newProduct._id} class="btn btn-primary w-100">Ver más</a>
     </div>
   `;
 

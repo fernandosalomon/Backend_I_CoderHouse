@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <div>
-      <a class="navbar-brand" href="#">MyCommerce</a>
+      <a class="navbar-brand" href="/products">MyCommerce</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -39,6 +39,7 @@
         name="cartSelect"
         id="cartSelect"
       >
+        <option value="-1" default disabled>Elije un carrito</option>
         {{#each carts}}
           <option value={{this._id}}>{{this._id}}</option>
         {{/each}}
