@@ -12,7 +12,7 @@ queryForm.addEventListener("submit", (e) => {
 
   
 
-  let url = "/products?"
+  let url = window.location.href + "?";
 
   if(queries["filter"] != "") url += `filter=${queries["filter"]}`;
   if(queries["sort"] != "") url += `&sort=${queries["sort"]}`;
