@@ -142,6 +142,10 @@ viewsRouter.get("/carts", async (req, res) => {
 
     const cartProducts = carts[cartIndex].products;
 
+    cartProducts.forEach((product, index) => {
+      cartProducts[index].subtotal = ((product.product.price * product.quantity).toFixed(2));
+    });
+
     res.render("carts", {carts, cartProducts});
   } catch (error) {
     console.log(`Error al recuperar los productos (${error})`);
