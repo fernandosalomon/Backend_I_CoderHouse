@@ -101,6 +101,7 @@
         <div
           class="card d-flex flex-column col-4 mx-2"
           style="width: 18rem; height: 420px"
+          id=id-{{this._id}}
         >
           <img
             src={{lookup this.thumbnails 0}}
@@ -116,7 +117,7 @@
                   <i class="bi bi-pencil-square fs-5 text-primary"></i>
                 </button>
 
-                <button class="btn p-1" onclick="deleteProduct({{this.id}})">
+                <button class="btn p-1" onclick="deleteProduct('{{this._id}}')">
                   <i class="bi bi-trash fs-5 text-danger"></i>
                 </button>
               </div>

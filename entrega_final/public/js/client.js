@@ -120,10 +120,11 @@ socket.on("added product", (newProduct) => {
   const modalElement = document.getElementById("addNewProductModal");
   const modal = bootstrap.Modal.getInstance(modalElement) || new bootstrap.Modal(modalElement);
   const productCardRow = document.getElementById("product-card-wrapper");
-
   const productCard = document.createElement("div");
+  
   productCard.classList = "card d-flex flex-column col-4 mx-2";
   productCard.style = "width: 18rem; height: 420px;";
+  productCard.id = `id-${newProduct._id}`
   productCard.innerHTML = `
     <img
       src=${newProduct.thumbnails[0]}
@@ -132,22 +133,24 @@ socket.on("added product", (newProduct) => {
       style="min-height: 200px; height: 200px;"
     />
     <div class="card-body flex-grow-1">
-      <p class="card-text mb-1 text-secondary">${newProduct.category}</p>
-      <h5 class="card-title mb-1">${newProduct.title}</h5>
-      <p class="card-text mb-1">In stock: ${newProduct.stock}</p>
-      <p class="card-text mb-1 text-success fw-bold">$${newProduct.price}</p>
-    </div>
-    <div class="mb-3 d-flex justify-content-between">
-      <a href="#" class="btn btn-success">Agregar al carrito</a>
-      <div>
-        <button class="btn p-1">
-          <i class="bi bi-pencil-square fs-5 text-primary"></i>
-        </button>
+      <div class="d-flex justify-content-between">
+        <p class="card-text mb-1 text-secondary">${newProduct.category}</p>
+        <div>
+          <button class="btn p-1">
+            <i class="bi bi-pencil-square fs-5 text-primary"></i>
+          </button>
 
-        <button class="btn p-1" onclick="deleteProduct(${newProduct._id})">
-          <i class="bi bi-trash fs-5 text-danger"></i>
-        </button>
+          <button class="btn p-1" onclick="deleteProduct('${newProduct._id}')">
+            <i class="bi bi-trash fs-5 text-danger"></i>
+          </button>
+        </div>
       </div>
+      <h5 class="card-title mb-1 product-name">${newProduct.title}</h5>
+      <p class="card-text mb-1 product-stock">In stock: ${newProduct.stock}</p>
+      <p class="card-text mb-1 text-success fw-bold product-price">$${Number(newProduct.price.$numberDecimal).toFixed(2)}</p>
+    </div>
+    <div class="mb-3 d-flex justify-content-between w-100">
+      <a href="/product/{{this._id}}" class="btn btn-primary w-100">Ver más</a>
     </div>
   `;
   
