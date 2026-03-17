@@ -44,3 +44,58 @@ export const getProductByID = async (req, res) => {
     });
   }
 };
+
+export const addNewProduct = async (req, res) => {
+  try {
+    const productData = req.body;
+    const createdProduct = await Product.create(productData);
+    res.status(201).json({status: "success", payload: createdProduct});
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: `Error al agregar el producto (${error})`,
+    });
+  }
+};
+
+export const updateProduct = async (req, res) => {
+  try {
+    const pid = req.params.pid;
+    const productNewData = req.body;
+ 
+    const updatedProduct = await Product.findByIdAndUpdate(
+      pid,
+      productNewData,
+      { returnDocument: "after", runValidators: true },
+    );
+
+    if (!updatedProduct)
+      res
+        .status(404)
+        .json({ status: "error", message: "Producto no encontrado" });
+
+    res.status(200).json({status: "success", payload: updatedProduct});
+
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: `Error al modificar el producto (${error})`,
+    });
+  }
+}
+
+export const deleteProduct = async (req, res) => {
+  try {
+    const pid = req.params.pid;
+    const deletedProduct = await Product.findByIdAndDelete(pid);
+
+    if(!deleteProduct) res.status(404).json({status: "error", message: "Producto no encontrado"})
+
+    res.status(200).json({status: "success", payload: deletedProduct});
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: `Error al eliminar el producto (${error})`,
+    });
+  }
+}
