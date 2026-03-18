@@ -44,7 +44,7 @@
         name="cartSelect"
         id="cartSelect"
       >
-        <option value="-1" default disabled>Elije un carrito</option>
+        <option value="" selected hidden disabled>Elije un carrito</option>
         {{#each carts}}
           <option value={{this._id}}>{{this._id}}</option>
         {{/each}}
@@ -64,6 +64,7 @@
           </tr>
         </thead>
         <tbody id="productTableTbody">
+          {{#if cartProducts}}
           {{#each cartProducts}}
             <tr id="id-{{this.id}}">
               <td><img
@@ -88,6 +89,13 @@
                 >Borrar</button></td>
             </tr>
           {{/each}}
+          {{else}}
+          <tr id="empty-row">
+            <td colspan="6">
+              <h5 class="text-center">No hay productos en el carrito</h5>
+            </td>
+          </tr>
+          {{/if}}
         </tbody>
       </table>
       <div class="w-100">

@@ -24,11 +24,20 @@ socket.on("found cart", (cartData) => {
   newTbody.id = "productTableTbody";
   let total = 0;
 
-  cartData.products.map((product) => {
-    total +=
-      Number(product.product.price?.$numberDecimal * product.quantity) ||
-      Number(product.product.price * product.quantity);
+  if (cartData.products.length == 0) {
     newTbody.innerHTML += `
+            <tr id="empty-table">
+              <td colspan="6">
+                <h5 class="text-center">No hay productos en el carrito</h5>
+              </td>
+            </tr>
+      `;
+  } else {
+    cartData.products.map((product) => {
+      total +=
+        Number(product.product.price?.$numberDecimal * product.quantity) ||
+        Number(product.product.price * product.quantity);
+      newTbody.innerHTML += `
             <tr id="id-${product.product._id}">
               <td><img
                   src="${product.product.thumbnails[0]}"
@@ -50,9 +59,7 @@ socket.on("found cart", (cartData) => {
                   ? Number(
                       product.product.price.$numberDecimal * product.quantity,
                     ).toFixed(2)
-                  : Number(
-                      product.product.price * product.quantity,
-                    ).toFixed(2)
+                  : Number(product.product.price * product.quantity).toFixed(2)
               }</td>
               <td><button
                   class="btn btn-danger"
@@ -60,7 +67,8 @@ socket.on("found cart", (cartData) => {
                 >Borrar</button></td>
             </tr>
         `;
-  });
+    });
+  }
 
   if (oldTbody) {
     productTable.replaceChild(newTbody, oldTbody);
