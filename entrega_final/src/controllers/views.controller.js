@@ -140,14 +140,18 @@ export const cartsViews = async (req, res) => {
     if (cartIndex == -1) res.render("carts", { carts });
 
     const cartProducts = carts[cartIndex].products;
+    let totalToPay = 0;
 
     cartProducts.forEach((product, index) => {
       cartProducts[index].subtotal = (
         product.product.price * product.quantity
       ).toFixed(2);
+      totalToPay += product.product.price * product.quantity;
     });
 
-    res.render("carts", { carts, cartProducts });
+    cartProducts["totalToPay"] = Number(totalToPay).toFixed(2);
+
+     res.render("carts", { carts, cartProducts });
   } catch (error) {
     console.log(`Error al recuperar los productos (${error})`);
   }

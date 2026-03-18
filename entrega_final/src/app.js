@@ -96,6 +96,8 @@ io.on("connection", (socket) => {
     try {
       const cartData = await Cart.findById(cartID).populate("products.product").lean();
 
+      console.log(cartData.products);
+
       if (!cartData) {
         throw new Error("Carrito no encontrado");
       }
