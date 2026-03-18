@@ -7,5 +7,8 @@ viewsRouter.get("/products", productsView);
 viewsRouter.get("/realTimeProducts", realTimeProductsViews);
 viewsRouter.get("/product/:pid", productDetailView);
 viewsRouter.get("/carts", cartsViews)
+viewsRouter.get("/", (req, res) => {
+    res.render("home");
+})
 
 export default viewsRouter;
