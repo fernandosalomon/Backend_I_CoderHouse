@@ -17,19 +17,18 @@ select.addEventListener("change", (event) => {
 });
 
 socket.on("found cart", (cartData) => {
-    
-    const productTable = document.getElementById("productTable");
-    const oldTbody = document.getElementById("productTableTbody")
-    const newTbody = document.createElement("tbody");
-    const totalToPay = document.getElementById("totalToPay");
-    newTbody.id = "productTableTbody";
-    let total = 0
+  const productTable = document.getElementById("productTable");
+  const oldTbody = document.getElementById("productTableTbody");
+  const newTbody = document.createElement("tbody");
+  const totalToPay = document.getElementById("totalToPay");
+  newTbody.id = "productTableTbody";
+  let total = 0;
 
-    cartData.products.map(product => {
-        total +=
-          Number(product.product.price?.$numberDecimal * product.quantity) ||
-          Number(product.product.price * product.quantity);
-        newTbody.innerHTML += `
+  cartData.products.map((product) => {
+    total +=
+      Number(product.product.price?.$numberDecimal * product.quantity) ||
+      Number(product.product.price * product.quantity);
+    newTbody.innerHTML += `
             <tr id="id-${product.product._id}">
               <td><img
                   src="${product.product.thumbnails[0]}"
@@ -46,25 +45,30 @@ socket.on("found cart", (cartData) => {
                   onchange="modifyQuantity(event, '${product.product._id}')"
                 />
               </td>
-              <td></td>
+              <td>$${
+                product.product.price?.$numberDecimal
+                  ? Number(
+                      product.product.price.$numberDecimal * product.quantity,
+                    ).toFixed(2)
+                  : Number(
+                      product.product.price * product.quantity,
+                    ).toFixed(2)
+              }</td>
               <td><button
                   class="btn btn-danger"
                   onclick="deleteProduct('${product.product._id}')"
                 >Borrar</button></td>
             </tr>
         `;
-        console.log(total);
-    })
-    
-    if(oldTbody){
-        productTable.replaceChild(newTbody, oldTbody);
-    }else{
-        productTable.appendChild(newTbody)
-    }
+  });
 
-    console.log(cartData);
-    totalToPay.innerHTML = `$${Number(total).toFixed(2)}`;
-    
+  if (oldTbody) {
+    productTable.replaceChild(newTbody, oldTbody);
+  } else {
+    productTable.appendChild(newTbody);
+  }
+
+  totalToPay.innerHTML = `$${Number(total).toFixed(2)}`;
 });
 
 const addNewCartBtn = document.getElementById("addNewCartBtn");
@@ -116,7 +120,6 @@ const modifyQuantity = async (e, productID) => {
     }
 
     const result = await response.json();
-
   } catch (error) {
     Swal.fire({
       icon: "error",
@@ -158,5 +161,3 @@ const deleteProduct = async (productID) => {
     });
   }
 };
-
-
