@@ -21,9 +21,14 @@ socket.on("found cart", (cartData) => {
     const productTable = document.getElementById("productTable");
     const oldTbody = document.getElementById("productTableTbody")
     const newTbody = document.createElement("tbody");
+    const totalToPay = document.getElementById("totalToPay");
     newTbody.id = "productTableTbody";
-    
+    let total = 0
+
     cartData.products.map(product => {
+        total +=
+          Number(product.product.price?.$numberDecimal * product.quantity) ||
+          Number(product.product.price * product.quantity);
         newTbody.innerHTML += `
             <tr id="id-${product.product._id}">
               <td><img
@@ -32,7 +37,7 @@ socket.on("found cart", (cartData) => {
                   style="width: 80px; height: 80px;"
                 /></td>
               <td>${product.product.title}</td>
-              <td>${product.product.price}</td>
+              <td>$${product.product.price?.$numberDecimal || product.product.price}</td>
               <td>
                 <input
                   id="productQuantity"
@@ -48,6 +53,7 @@ socket.on("found cart", (cartData) => {
                 >Borrar</button></td>
             </tr>
         `;
+        console.log(total);
     })
     
     if(oldTbody){
@@ -55,6 +61,10 @@ socket.on("found cart", (cartData) => {
     }else{
         productTable.appendChild(newTbody)
     }
+
+    console.log(cartData);
+    totalToPay.innerHTML = `$${Number(total).toFixed(2)}`;
+    
 });
 
 const addNewCartBtn = document.getElementById("addNewCartBtn");
@@ -107,7 +117,6 @@ const modifyQuantity = async (e, productID) => {
 
     const result = await response.json();
 
-    console.log(result);
   } catch (error) {
     Swal.fire({
       icon: "error",
@@ -133,8 +142,6 @@ const deleteProduct = async (productID) => {
     }
 
     const result = await response.json();
-
-    console.log(result);
 
     Swal.fire({
       icon: "success",
